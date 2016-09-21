@@ -3,34 +3,33 @@
 class MySmarty
 {
 	public $template_dir;
-	public $key;
-	public $value;
+	public $data;
 
 	public function assign($key, $value) 
 	{
-		$this->key = $key;
-		$this->value = $value;
+		$this->data[$key] = $value;
 	}
         
 	public function display($template_name) 
 	{
 		$html = file_get_contents($this->template_dir . $template_name); 	
-		$changed = preg_replace('/\{\$(.*)\}/','',$html);
+		preg_match_all('/\{\$(.*?)\}/',$html,$matches);
+			
+		$keys = array_keys($this->data);
 
-		if (isset($this->key))
+		foreach ($matches[1] as $match)
 		{
-			$changed_0 = preg_replace('/\{\$' . $this->key . '\}/',$this->value,$html);
-			$changed = preg_replace('/\{\$(?!.*' . $this->key . ').*\}/','',$changed_0);
+			if (in_array($matches[1],$keys))
+			{
+				$html = preg_replace('/\{\$' . $matches[1] . '\}/',$value,$html);
+			} else {
+				$html = preg_replace('/\{\$' . $matches[1] . '\}/','',$html);
+			}
 		}
+		
+		// echo $html;
 
-		echo $changed;
 	}
 }
 
-// $smarty = new MySmarty; 
-// $smarty->template_dir = './templates/';
-// $name = 'テスト';
-// $smarty->assign('name',$name);
-// // var_dump($smarty);
-// $smarty->display('index.tpl');
 ?>
