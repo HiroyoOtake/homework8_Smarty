@@ -9,8 +9,8 @@ class MySmarty
 	{
 		$this->data[$key] = $value;
 	}
-        
-	public function display($template_name) 
+	
+	public function fetch($template_name)
 	{
 		$html = file_get_contents($this->template_dir . $template_name); 	
 
@@ -29,8 +29,15 @@ class MySmarty
 		}
 
 		$changed_last = preg_replace('/\{\$(.*)\}/','',$changed);
-		echo $changed_last;
+
+		return $changed_last;
 	}
+
+	public function display($template_name) 
+	{
+		echo $this->fetch($template_name);
+	}
+
 }
 
 ?>
