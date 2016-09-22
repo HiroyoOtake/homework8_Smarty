@@ -17,6 +17,7 @@ class MySmarty
 		foreach($this->data as $key => $value)
 		{
 			$changed = preg_replace('/\{\$' . $key . '\}/',$value,$html);
+			$html = $changed;
 		}
 
 		$changed_last = preg_replace('/\{\$(.*)\}/','',$changed);
