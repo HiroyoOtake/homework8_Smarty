@@ -16,19 +16,17 @@ class MySmarty
 
 		foreach($this->data as $key => $value)
 		{
-			$changed = preg_replace('/\{\$' . $key . '\}/',$value,$html);
+			$html = preg_replace('/\{\$' . $key . '\}/',$value,$html);
 
-			if ($value)
-			{
-				$changed = preg_replace('/\{if \$' . $key . '\}(.*?)\{\/if\}/s','\1',$changed);
-			} else {
-				$changed = preg_replace('/\{if \$' . $key . '\}(.*?)\{\/if\}/s','',$changed);
+			$replace = "";
+			if ($value) {
+				  $replace = '\1';
 			}
-			
-			$html = $changed;
+
+			$html = preg_replace('/\{if \$' . $key . '\}(.*?)\{\/if\}/s', $replace,$html);
 		}
 
-		$changed_last = preg_replace('/\{\$(.*)\}/','',$changed);
+		$changed_last = preg_replace('/\{\$(.*?)\}/','',$html);
 
 		return $changed_last;
 	}
