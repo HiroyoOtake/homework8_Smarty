@@ -13,21 +13,14 @@ class MySmarty
 	public function display($template_name) 
 	{
 		$html = file_get_contents($this->template_dir . $template_name); 	
-		preg_match_all('/\{\$(.*?)\}/',$html,$matches);
-			
-		$keys = array_keys($this->data);
 
-		foreach ($matches[1] as $match)
+		foreach($this->data as $key => $value)
 		{
-			if (in_array($matches[1],$keys))
-			{
-				$html = preg_replace('/\{\$' . $matches[1] . '\}/',$value,$html);
-			} else {
-				$html = preg_replace('/\{\$' . $matches[1] . '\}/','',$html);
-			}
+			$changed = preg_replace('/\{\$' . $key . '\}/',$value,$html);
 		}
-		
-		// echo $html;
+
+		$changed_last = preg_replace('/\{\$(.*)\}/','',$changed);
+		echo $changed_last;
 
 	}
 }
