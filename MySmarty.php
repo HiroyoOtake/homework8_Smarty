@@ -26,9 +26,10 @@ class MySmarty
 			$html = preg_replace('/\{if \$' . $key . '\}(.*?)\{\/if\}/s', $replace,$html);
 		}
 
-		$changed_last = preg_replace('/\{\$(.*?)\}/','',$html);
+		$html = preg_replace('/\{\$(.*?)\}/','',$html); //assignされてない{$aaa}を消す
+		$html = preg_replace('/\{if \$(.*?)\}(.*?)\{\/if\}/s','',$html); //assignされてない{if $aaa}aaaaa{/if}を消す
 
-		return $changed_last;
+		return $html;
 	}
 
 	public function display($template_name) 
